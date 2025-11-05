@@ -1,0 +1,80 @@
+local player = game.Players.LocalPlayer
+function find()
+local Get = {}
+local sd = math.huge
+local nplr = nil
+for _, plr in pairs(workspace.Live:GetChildren()) do
+	if  plr.Name == player.Name then
+	print("it's me!")
+	else
+	local dis = (player.Character.HumanoidRootPart.Position-plr.HumanoidRootPart.Position).Magnitude
+	
+	if dis < sd then
+		sd = dis
+		nplr = plr
+	end
+	end
+end
+function Get:CF()
+	return nplr.HumanoidRootPart.CFrame
+end
+return Get
+end
+local tool = Instance.new("Tool", player.Backpack)
+local fasttool = Instance.new("Tool", player.Backpack)
+fasttool.RequiresHandle = false
+fasttool.Name = "speed up [off]" 
+game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar["6"].Base.ToolName.Text = fasttool.Name
+tool.RequiresHandle = false
+tool.Name = "tp"
+game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar["5"].Base.ToolName.Text = "tp"
+local enable = false
+local nostun = Instance.new("Tool", player.Backpack)
+nostun.Name = "No stun"
+local enablestun = false
+nostun.RequiresHandle = false
+game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar["7"].Base.ToolName.Text = "ninja mode[off]"
+nostun.Activated:Connect(function()
+
+	
+	if enablestun then
+	enablestun = false
+	game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar["7"].Base.ToolName.Text = "ninja mode[off]"
+	else
+	enablestun = true
+	game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar["7"].Base.ToolName.Text = "ninja mode[on]"
+	while enablestun do
+		task.wait()
+		game:GetService("Players").LocalPlayer.Character.Humanoid.AutoRotate = true
+	if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Freeze") then
+      game:GetService("Players").LocalPlayer.Character.Freeze:Destroy()
+
+end
+	end
+	end
+end)
+fasttool.Activated:Connect(function()
+
+	
+	if enable then
+	enable = false
+	player.Character.Humanoid.WalkSpeed = 16
+	game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar["6"].Base.ToolName.Text = "speed up[off]"
+	else
+	enable = true
+	game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar["6"].Base.ToolName.Text = "speed up[on]"
+	while enable do
+		task.wait()
+		player.Character.Humanoid.WalkSpeed = 64
+	end
+	end
+end)
+
+tool.Activated:Connect(function()
+	player.Character.HumanoidRootPart.CFrame = find():CF()
+end)
+
+player.Character.Humanoid.Died:Connect(function()
+	enable = false
+	enablestun = false
+end)
