@@ -33,8 +33,11 @@ local nostun = Instance.new("Tool", player.Backpack)
 nostun.Name = "No stun"
 local enablestun = false
 nostun.RequiresHandle = false
+tool:SetAttribute("Skill", true)
+fasttool:SetAttribute("Skill", true)
+nostun:SetAttribute("Skill", true)
 game:GetService("Players").LocalPlayer.PlayerGui.Hotbar.Backpack.Hotbar["7"].Base.ToolName.Text = "ninja mode[off]"
-nostun.Activated:Connect(function()
+nostun.Equipped:Connect(function()
 
 	
 	if enablestun then
@@ -53,7 +56,7 @@ end
 	end
 	end
 end)
-fasttool.Activated:Connect(function()
+fasttool.Equipped:Connect(function()
 
 	
 	if enable then
@@ -70,7 +73,7 @@ fasttool.Activated:Connect(function()
 	end
 end)
 
-tool.Activated:Connect(function()
+tool.Equipped:Connect(function()
 	player.Character.HumanoidRootPart.CFrame = find():CF()
 end)
 
